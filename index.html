@@ -3,43 +3,87 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Stylianos Kyriacou | Coming Soon</title>
-    <meta name="description" content="Personal website of Stylianos Kyriacou. Currently under construction.">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <title>Stylianos Kyriacou</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="background-glow"></div>
-    <div class="container">
-        <header>
-            <h1 class="gradient-text">Stylianos Kyriacou</h1>
-            <p class="subtitle">Something extraordinary is in the works.</p>
-        </header>
-        
-        <main>
-            <div class="status-badge">
-                <span class="dot"></span>
-                <span>Under Construction!</span>
-            </div>
-            
-            <p class="description">
-                I am currently crafting a new digital experience. Please check back soon to see the full website.
-            </p>
-            
-            <div class="social-links">
-                <a href="#" class="social-link" title="LinkedIn">
+
+    <div id="dhead" class="container">
+        <div id="dpic">
+            <!-- Using a generic avatar placeholder since actual image isn't readily available, can be swapped later -->
+            <img src="https://scholar.googleusercontent.com/citations?view_op=view_photo&user=JQmiXi8AAAAJ&citpid=1" alt="Stylianos Kyriacou" class="ppic" onerror="this.src='https://ui-avatars.com/api/?name=Stylianos+Kyriacou&size=200&background=random'" />
+        </div>
+        <div id="ddesc">
+            <h1>Stylianos Kyriacou</h1>
+            <h2>Optimization, Evolutionary algorithms, Artificial Intelligence, Computational Fluid Dynamics</h2>
+            <div id="dico">
+                <a href="https://www.linkedin.com/in/stylianoskyriacou/" target="_blank" title="LinkedIn">
                     <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
                 </a>
-                <a href="#" class="social-link" title="GitHub">
-                    <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
-                </a>
-                <a href="#" class="social-link" title="Email">
-                    <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+                <a href="https://scholar.google.com/citations?user=JQmiXi8AAAAJ&hl=en" target="_blank" title="Google Scholar">
+                    <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
                 </a>
             </div>
-        </main>
+        </div>
     </div>
+
+    <hr>
+
+    <div id="bio" class="container">
+        <div class="bio">
+            I hold a PhD from the National Technical University of Athens. My research and expertise focus on Optimization, Evolutionary algorithms, Artificial Intelligence, and Computational Fluid dynamics.
+        </div>
+    </div>
+
+    <div id="history" class="container">
+        <h3 class="section-title">Timeline</h3>
+        
+        <!-- Timeline Entries -->
+        <div class="history-entry">
+            <div class="timespan">Present</div>
+            <div class="ico"><div class="entry-dot"></div></div>
+            <div class="desc">
+                Currently working on optimization and AI.
+            </div>
+        </div>
+
+        <div class="history-entry">
+            <div class="timespan">Past</div>
+            <div class="ico"><div class="entry-dot"></div></div>
+            <div class="desc">
+                Completed PhD at the <a href="https://www.ntua.gr/en/" target="_blank">National Technical University of Athens (NTUA)</a>, focusing on Evolutionary algorithms and Computational Fluid dynamics.
+            </div>
+        </div>
+    </div>
+
+    <div id="writing" class="container">
+        <h3 class="section-title">Featured Writing</h3>
+        <p class="empty-state">Coming soon...</p>
+    </div>
+
+    <div id="projects" class="container">
+        <h3 class="section-title">Pet Projects</h3>
+        <p class="empty-state">Coming soon...</p>
+    </div>
+
+    <div id="publications" class="container">
+        <h3 class="section-title">Publications</h3>
+        <ul class="publications-list">
+            <li><a href="https://scholar.google.com/citations?view_op=view_citation&hl=en&user=JQmiXi8AAAAJ&citation_for_view=JQmiXi8AAAAJ:YsMSGLbcyi4C" target="_blank">CFD based draft tube hydraulic design optimization</a></li>
+            <li><a href="https://scholar.google.com/citations?view_op=view_citation&hl=en&user=JQmiXi8AAAAJ&citation_for_view=JQmiXi8AAAAJ:qjMakFHDy7sC" target="_blank">The continuous adjoint method for the design of hydraulic turbomachines</a></li>
+            <li><a href="https://scholar.google.com/citations?view_op=view_citation&hl=en&user=JQmiXi8AAAAJ&citation_for_view=JQmiXi8AAAAJ:ufrVoPGSRksC" target="_blank">Redistribution of steam injection in heavy oil reservoir management to improve EOR economics, powered by a unique integration of reservoir physics and machine learning</a></li>
+            <li><a href="https://scholar.google.com/citations?view_op=view_citation&hl=en&user=JQmiXi8AAAAJ&citation_for_view=JQmiXi8AAAAJ:2osOgNQ5qMEC" target="_blank">Efficient PCA-driven EAs and metamodel-assisted EAs, with applications in turbomachinery</a></li>
+            <li><a href="https://scholar.google.com/citations?view_op=view_citation&hl=en&user=JQmiXi8AAAAJ&citation_for_view=JQmiXi8AAAAJ:IjCSPb-OGe4C" target="_blank">PCA-enhanced metamodel-assisted evolutionary algorithms for aerodynamic optimization</a></li>
+            <li><a href="https://scholar.google.com/citations?view_op=view_citation&hl=en&user=JQmiXi8AAAAJ&citation_for_view=JQmiXi8AAAAJ:WF5omc3nYNoC" target="_blank">Constrained, multi-objective, steamflood injection redistribution optimization, using a cloud-distributed, metamodel-assisted, memetic optimization algorithm</a></li>
+            <li><a href="https://scholar.google.com/citations?view_op=view_citation&hl=en&user=JQmiXi8AAAAJ&citation_for_view=JQmiXi8AAAAJ:d1gkVwhDpl0C" target="_blank">Design of a matrix hydraulic turbine using a metamodel-assisted evolutionary algorithm with PCA-driven evolution operators</a></li>
+            <li><a href="https://scholar.google.com/citations?view_op=view_citation&hl=en&user=JQmiXi8AAAAJ&citation_for_view=JQmiXi8AAAAJ:LkGwnXOMwfcC" target="_blank">Implementation and assessment of production optimization in a steamflood using machine-learning assisted modeling</a></li>
+            <li><a href="https://scholar.google.com/citations?view_op=view_citation&hl=en&user=JQmiXi8AAAAJ&citation_for_view=JQmiXi8AAAAJ:UeHWp8X0CEIC" target="_blank">Constrained multi-objective design optimization of hydraulic components using a hierarchical metamodel assisted evolutionary algorithm. part 2: applications</a></li>
+            <li><a href="https://scholar.google.com/citations?view_op=view_citation&hl=en&user=JQmiXi8AAAAJ&citation_for_view=JQmiXi8AAAAJ:_FxGoFyzp5QC" target="_blank">Evolutionary algorithm-based design-optimization methods in turbomachinery</a></li>
+        </ul>
+        <p><a href="https://scholar.google.com/citations?user=JQmiXi8AAAAJ&hl=en" target="_blank">See all publications on Google Scholar &rarr;</a></p>
+    </div>
+
+    <br><br><br>
+
 </body>
 </html>
