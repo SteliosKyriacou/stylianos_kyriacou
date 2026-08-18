@@ -285,6 +285,15 @@ hr {
     line-height: 1.7;
 }
 
+/* Blog post byline */
+.post-byline {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-secondary);
+    letter-spacing: 0.5px;
+    margin: -6px 0 26px 0;
+}
+
 /* Links & Lists */
 a {
     color: #4facfe;
