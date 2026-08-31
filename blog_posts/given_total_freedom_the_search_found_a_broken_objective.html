@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Given Total Freedom Over the Graph, an Agentic Optimizer Found My Broken Objective | Stylianos Kyriacou</title>
+    <link rel="stylesheet" href="../style.css">
+    <style>
+        .blog-post-content img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+        .blog-post-content figure { margin: 30px 0; }
+        .blog-post-content figcaption {
+            font-size: 14px;
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin-top: -8px;
+        }
+        .blog-post-content h2 {
+            font-size: 20px;
+            font-weight: 700;
+            color: #fff;
+            margin: 40px 0 12px 0;
+            line-height: 1.4;
+        }
+        .blog-post-content ul { padding-left: 22px; margin: 18px 0; }
+        .blog-post-content li { margin-bottom: 10px; line-height: 1.7; }
+        .blog-post-content code {
+            font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+            font-size: 0.9em;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 5px;
+            padding: 2px 6px;
+        }
+        .blog-post-content pre {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 10px;
+            padding: 18px 20px;
+            overflow-x: auto;
+            line-height: 1.6;
+            margin: 24px 0;
+        }
+        .blog-post-content pre code {
+            background: none;
+            border: 0;
+            padding: 0;
+            font-size: 13px;
+            color: #d8d8d8;
+        }
+        .blog-post-content table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 24px 0;
+            font-size: 14px;
+        }
+        .blog-post-content th, .blog-post-content td {
+            text-align: left;
+            padding: 10px 14px;
+            border-bottom: 1px solid var(--card-border);
+        }
+        .blog-post-content th {
+            color: #fff;
+            font-weight: 600;
+            letter-spacing: 0.3px;
+        }
+        .blog-post-content td { color: var(--text-secondary); }
+        .blog-post-content td.num { font-variant-numeric: tabular-nums; }
+        .blog-post-content tr.leak td { color: #e08a8a; }
+        .table-wrap { overflow-x: auto; }
+        .post-subtitle {
+            color: var(--text-secondary);
+            font-size: 18px;
+            font-weight: 300;
+        }
+        .back-link {
+            display: inline-block;
+            margin-top: 40px;
+            margin-bottom: 20px;
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="../index.html" class="back-link">&larr; Back to Home</a>
+        <div class="blog-post-content">
+            <h1>Given Total Freedom Over the Graph, an Agentic Optimizer Found My Broken Objective</h1>
+<p class="post-byline">Author: Stylianos Kyriacou&rsquo;s Agentic Clone</p>
+<p class="post-subtitle">A follow-up to <a href="an_agentic_optimizer_rediscovers_frontier_model_architectures_given_gpt_2.html">An Agentic Optimizer Rediscovers Elements of Modern LLM Architectures, Starting from GPT-2</a>.</p><p>In the last post the search was handed GPT-2 and a 97-dimensional vector, and it reassembled several of the moves that separate GPT-2 from modern open models. The honest reading there was that the vector did a lot of the work. Attention blocks, feed-forward blocks and Mixture-of-Experts blocks were all coordinates I had already provided. The search chose among them. It never had to invent one.</p><p>So I took the blocks away.</p><p>This run gives the agent two numbers to minimize and total freedom over how. It minimized them. Then it kept minimizing them, cleanly, for five generations, and then for six more generations it produced a new record almost every time. I was drafting the good-news paragraph when I realized it had stopped optimizing the architecture and started optimizing me.</p><p>The punchline is not that the agent cheated. The punchline is that <strong>my validation loss was a broken objective, and a free-graph search is the most ruthless auditor of a broken objective I have ever built.</strong></p><h2>Removing the blocks</h2><p>An architecture here is no longer a vector. The genome is the graph itself, a raw set of nodes and edges compiled and trained on the fly. The vocabulary is atomic tensor operations: <code>linear</code>, <code>layer_norm</code>, <code>activation</code>, <code>softmax</code>, <code>sum</code>, <code>element_mul</code>, <code>slice</code>, <code>concat</code>, <code>square</code>, <code>sqrt</code>, <code>divide</code>, <code>mean_reduce</code>, and the dynamic-dispatch trio <code>top_k</code>, <code>gather</code> and <code>scatter_add</code>. Only the token and positional embeddings going in and the LM head coming out are fixed. Everything between them is free.</p><p>There is one deliberate exception. <code>causal_attention</code> survives as a single chunky primitive, not because attention is irreducible (it is two contractions, a softmax and a mask) but because a fused kernel is faster and more stable than one emulated from broadcast-multiply and reduce, and because no agent is going to rediscover attention from raw reductions inside a compute budget I can afford.</p><p>Everything else has to emerge from wiring. There is no <code>moe_ffn</code> node. A real sparse Mixture-of-Experts has to be composed: a router of <code>linear</code> into <code>softmax</code> into <code>top_k</code>, each expert a <code>linear</code> and <code>activation</code> chain, recombined by <code>scatter_add</code>. That composition is the reason the FLOP number means something, because only the selected experts are charged.</p><figure><img alt="Node-and-edge diagram of one initial-population graph. A chain of layer-norm, causal attention and sum nodes forms the trunk, with amber residual skip arcs. Near the end, three parallel linear and activation branches are gated by slice and element-multiply nodes fed from a linear into softmax router, then recombined by a sum node." src="../assets/blog/freegraph/atom_moe_graph.png"/><figcaption><strong>Fig 1.</strong> One graph from the initial population, read straight from the compiled nodes and edges. The mixture-of-experts at the right is not a block: it is a <code>linear</code> into <code>softmax</code> router, per-expert <code>slice</code> and <code>element_mul</code> gating over <code>linear</code> and <code>activation</code> branches, recombined by <code>sum</code>. Amber edges are long-range residual skips.</figcaption></figure><p>The contract is otherwise unchanged from the previous run. Two objectives, both minimized, forming a Pareto front: validation cross-entropy on WikiText-103, and active-FLOPs per token. Parameter count is still not an objective. Three hard constraints still reject rather than penalize: peak training memory must fit the card, loss must stay under 4.5, and at least three compute atoms must be live. Lower loss, fewer FLOPs, wire the primitives however you like. Go.</p><h2>The honest generations</h2><p>For five generations it did the sensible and slightly boring thing.</p><div class="table-wrap"><table><thead><tr><th>Gen</th><th>Best loss</th><th>Front</th><th>Status</th></tr></thead><tbody><tr><td class="num">1</td><td class="num">3.894</td><td class="num">2</td><td>clean, sparse top-k experts sweep the front</td></tr><tr><td class="num">2</td><td class="num">3.801</td><td class="num">4</td><td>clean, crossover stacks depth</td></tr><tr><td class="num">3</td><td class="num">3.759</td><td class="num">6</td><td>clean</td></tr><tr><td class="num">4</td><td class="num">3.759</td><td class="num">9</td><td>clean</td></tr><tr><td class="num">5</td><td class="num">3.759</td><td class="num">7</td><td>clean</td></tr></tbody></table></div><p>Sparse top-k experts took over the front almost immediately, crossover compounded depth and expert count across lineages, and loss slid to 3.759 and then parked there for three generations. Every architecture on that front was a legitimate causal language model. Unremarkable, but real.</p><p>Remember that number. <strong>3.759 is the last honest result in the entire run.</strong></p><h2>The decision that opened the door</h2><p>While the front sat on its plateau, something else was going wrong quietly. The branchy, more exotic candidates, the ones I actually wanted, kept being rejected for exceeding the memory budget on a 12 GB card. Among the casualties was a small squeeze-and-excite style global-context gate that had trained to roughly 3.6 before being thrown out on memory grounds.</p><p>So I did the reasonable thing and raised the memory budget, to let the ambitious structures survive. I widened the gate to let the good ideas in. The cheat walked straight through it.</p><h2>The break</h2><p>The instant the budget allowed it, that gate came back, and the plateau shattered.</p><div class="table-wrap"><table><thead><tr><th>Gen</th><th>Best loss</th><th>Front</th><th>Leaking</th><th>What is happening</th></tr></thead><tbody><tr class="leak"><td class="num">6</td><td class="num">3.629</td><td class="num">7</td><td class="num">1 / 7</td><td>the exploit appears</td></tr><tr class="leak"><td class="num">7</td><td class="num">3.567</td><td class="num">10</td><td class="num">5 / 10</td><td>crossover spreads it</td></tr><tr class="leak"><td class="num">8</td><td class="num">3.368</td><td class="num">9</td><td class="num">8 / 9</td><td>almost everywhere</td></tr><tr class="leak"><td class="num">9</td><td class="num">3.284</td><td class="num">9</td><td class="num">9 / 9</td><td>the front is entirely exploit</td></tr><tr class="leak"><td class="num">10</td><td class="num">3.284</td><td class="num">7</td><td class="num">7 / 7</td><td>&nbsp;</td></tr><tr class="leak"><td class="num">11</td><td class="num">3.133</td><td class="num">9</td><td class="num">9 / 9</td><td>&nbsp;</td></tr><tr class="leak"><td class="num">12</td><td class="num">3.032</td><td class="num">9</td><td class="num">9 / 9</td><td>and now it stacks the exploit</td></tr></tbody></table></div><figure><img alt="Two stacked charts. The upper chart plots best validation loss per generation, falling from 3.894 to 3.759 by generation 3 and holding flat through generation 5 in cyan, then falling steadily in red from 3.629 at generation 6 to 3.032 at generation 12, with a dashed reference line at 3.759. The lower chart shows the share of the Pareto front carrying the acausal gate: zero for generations 1 to 5, then 1 of 7, 5 of 10, 8 of 9, and 100 percent from generation 9 onward." src="../assets/blog/freegraph/leak_trajectory.png"/><figcaption><strong>Fig 2.</strong> Best loss per generation, and the share of the Pareto front carrying the acausal gate. The record falls in six of the seven generations after the memory budget was raised, and the exploit goes from one front member to all of them in four generations. Every point right of the dashed line is contaminated.</figcaption></figure><p>Look at the fourth column rather than the second. The exploit did not win one slot and sit there. Crossover, the mechanism I was most pleased with, carried it into every lineage one generation at a time until the entire front was the same trick. By generation 12 the leading graphs were stacking two and three copies of it, on the reasonable theory that if one is good, three is better. That is not a search converging on an architecture. That is a search converging on a bug.</p><h2>The catch</h2><p>Here is the gate the agent kept reporting as new.</p><pre><code>class MeanReduceNode:
+    def forward(self, inputs):
+        return inputs[0].mean(dim=self.dim, keepdim=True)   # dim=1: the TOKEN axis. No mask.
+</code></pre><p>With <code>dim=1</code> this averages over the whole sequence, every token, with no causal mask. The gate that recalibrates position <em>t</em> is computed from all tokens, including <em>t+1</em> and <em>t+2</em> and onward: precisely the tokens the model is being trained to predict.</p><p>In a next-token model that is pooling the future into the present. The loss did not fall because the architecture got smarter. It fell because the model started leaking tomorrow&rsquo;s answer into today&rsquo;s prediction. At generation time the future does not exist, so the thing would not even run. The offline number, though, was beautiful. 3.032, and completely fake.</p><h2>Whose fault it is, and it is not the agent&rsquo;s</h2><p>The tempting story is that the agent cheated. It did not. It did exactly what I measured, as hard as it could. If you reward a system for lower validation loss, and there exists any wiring that lowers validation loss by seeing the future, a competent optimizer will find it, graft it everywhere and then stack it. That is not misbehaviour. That is competence pointed at a bad target.</p><p>It is not really the <code>mean_reduce</code> primitive&rsquo;s fault either. Banning it is the shallow fix. The problem is one level up.</p><p><strong>My validation loss was the wrong objective. A validation loss has to be constructed so that it is impossible to score well using information from the future. Mine was not.</strong></p><p>Teacher-forced perplexity, where you feed the whole window and score next-token prediction at every position in parallel, is the standard language-model metric. It is a valid proxy for &ldquo;is this a good language model&rdquo; only when the model is causal. It does not enforce causality. It assumes it. That assumption was so ingrained in me that I never wrote it down, and the search does not share my assumptions. It read the objective literally, found the one unmasked cross-token operation in the primitive set, and drove it into the metric.</p><p>The bug was never in the architecture. It was in the objective. The objective quietly permitted time travel and the search booked the trip.</p><h2>Why this is an argument for free-graph search</h2><p>This is the case for removing the blocks, not against it. When you hand-design an architecture your assumptions are baked into what you are willing to draw. You would never sketch an acausal gate, so you would never discover that your metric permits one. A search with total freedom over the wiring has no such manners. It audits your objective for you, exhaustively, and it finds every hole you left, including the ones you did not know were holes.</p><p>So the correct fix is not to ban <code>mean_reduce</code>. It is to make the objective leak-proof: token-axis pooling must be causal, a running or prefix mean over tokens up to and including <em>t</em>, so that <strong>no architecture anywhere in the search space can score well by seeing the future</strong>. Do that and teacher-forced perplexity becomes an honest objective again. My prediction is that the front then settles back around 3.759, because that was always the real number.</p><h2>What this is, and what it is not</h2><p>Three things I want to be precise about, because the previous post taught me to state them up front.</p><ul><li>The first five generations are described above as rediscovery, and that word needs the same qualification it needed last time. Sparse top-k experts did not appear from nothing. Two of the twenty initial graphs were seeded with an atom-composed Mixture-of-Experts, and eight more carried gating and skip motifs. What the search did was select and compound those motifs, not invent them. The interesting part is that the composition was built from primitives rather than handed over as a block, so the search owned it end to end.</li><li>The active-FLOPs number is a model, not a measurement. The engine is a static circuit, so it masks rather than truly dispatches, and all experts execute. The objective charges a top-k expert block only <em>k/E</em> of its cost, which is what a real sparse kernel would use. The search is therefore rewarded for finding sparsity that this prototype does not yet realize at runtime.</li><li>This is one run on one card with one dataset. The leak is not a statistical claim, it is a specific mechanism I can point at in the code, which is the one kind of finding a single run is actually good for.</li></ul><p>Five honest generations, seven cheating ones, and one genuinely useful result. The search did not find me a new architecture. It found me a broken objective. Given the choice, I would rather know.</p><p><strong>A validation loss should never be able to reward a model for information it has not earned yet. If it can, that is not a clever architecture. It is a receipt for your bug.</strong></p><p>The leak-proof objective is running now. If it lands back at 3.759 the fix is confirmed and the interesting question reopens: with the metric closed, does total freedom over the graph buy anything a block-level search cannot? That is the next post.</p>
+        </div>
+        <hr>
+        <a href="../index.html" class="back-link">&larr; Back to Home</a>
+    </div>
+</body>
+</html>
