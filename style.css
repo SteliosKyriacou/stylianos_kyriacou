@@ -285,6 +285,11 @@ hr {
     line-height: 1.7;
 }
 
+/* Logos whose artwork is drawn for a dark ground (white marks) keep a dark chip */
+.ico img.logo-on-dark {
+    background: #0a0f1e;
+}
+
 /* Blog post byline */
 .post-byline {
     font-size: 14px;
