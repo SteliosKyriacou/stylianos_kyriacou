@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Why I Stopped Working on Generation | Stylianos Kyriacou</title>
+    <link rel="stylesheet" href="../style.css">
+    <style>
+        .blog-post-content img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+        .back-link {
+            display: inline-block;
+            margin-top: 40px;
+            margin-bottom: 20px;
+            font-weight: 500;
+        }
+        .blog-post-content figcaption {
+            font-size: 0.9em;
+            opacity: 0.75;
+            margin-top: -10px;
+            margin-bottom: 24px;
+        }
+        .blog-post-content figure { margin: 0; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="../index.html" class="back-link">&larr; Back to Home</a>
+        <div class="blog-post-content">
+            <h1>Why I Stopped Working on Generation</h1>
+<p class="post-byline">Author: Stylianos Kyriacou</p>
+
+            <p><em>Post 1 of 10 on the SAISHO clinical-outcomes manuscript.</em></p>
+
+            <p>There is a question that the pharmaceutical industry currently answers by running the experiment.</p>
+
+            <p>The question is: will this molecule, aimed at this target, in this disease, become a medicine?</p>
+
+            <p>The experiment is a clinical trial. It takes years. It costs somewhere between tens of millions and a couple of billion dollars depending on how far you get before the answer arrives. And roughly nine times out of ten, the answer is no.</p>
+
+            <p>That is the whole problem, stated as plainly as I know how to state it. Everything I have worked on for the last two years comes back to it.</p>
+
+            <p><strong>From Generation to Selection</strong></p>
+
+            <p>I spent a good chunk of my career building systems that produce molecules. Graph neural networks for de novo design at Norachem. Multi-objective optimizers driven by AlphaFold-2 embeddings. Enzyme engineering at industrial scale at Aether. The through line was always the same: treat design as a search problem, then make the search cheap enough to run at scale.</p>
+
+            <p>That work is largely won. Generative chemistry and automated synthesis have collapsed the cost of proposing a plausible candidate to something close to zero. You can generate ten thousand molecules that satisfy every heuristic you care to name, and you can do it before lunch.</p>
+
+            <p>Which means the binding constraint moved. It is no longer "what can we design". It is "what should we advance". Faster generation without better selection does not fix attrition. It scales it.</p>
+
+            <p>So we stopped asking how to make more molecules and started asking how to tell, early, which molecule-target-indication combinations are going to survive contact with a patient population.</p>
+
+            <p><strong>What We Built</strong></p>
+
+            <p>SAISHO is our answer. It is a multi-agent framework that behaves like a drug review board rather than a classifier.</p>
+
+            <p>Four domain specialists (medicinal chemistry, target biology, pharmacology, toxicology) evaluate the same program independently and in parallel. None of them sees the others' work while forming a view. A reconciliation pass then ingests all four advisories, resolves the contradictions, and produces a single Clinical Risk Score from 0 to 100, where higher means riskier, along with a ranked list of the specific liabilities driving that score.</p>
+
+            <p>The inputs are deliberately minimal: a molecular structure as SMILES, the biological target or mechanism of action, and the therapeutic indication. That is it. Optional extras (route, dosing regimen, emerging preclinical data) sharpen the assessment, but the three basics are enough to run. This constraint is the whole point. Those three things exist during lead optimization, candidate selection, and indication positioning, which is exactly when the decisions that matter are still reversible.</p>
+
+            <p><strong>What We Found</strong></p>
+
+            <p>Over the next nine posts I am going to walk through the manuscript one result at a time. Here is the shape of it, so you know where this is going.</p>
+
+            <p>On a benchmark of 391 small-molecule programs with confirmed outcomes, run under leakage controls that stripped compound identities and disabled similarity search, the Clinical Risk Score separated approved from failed programs with an AUROC of 0.90 and an average precision of 0.89.</p>
+
+            <p>Across the 199 failed or withdrawn programs in that cohort, the reconciled assessment prioritized a liability matching the documented reason for discontinuation in 153 of them. That is 77%. If you credit a match found by any of the four specialists rather than the final reconciled view, it rises to 165 programs, or 83%.</p>
+
+            <p>Strip the platform down to chemistry alone and average precision falls from about 0.90 to about 0.72. Ask a frontier model the same question directly, in a single pass, with the same inputs, and you get 0.56 to 0.61. The full workflow beats the strongest single-pass baseline by roughly 29 points of average precision.</p>
+
+            <p>Hold the molecule fixed and change only the indication or the delivery route, and the score moves. Sometimes enormously. Valacyclovir scores 1 in herpes zoster and 88 in early symptomatic Alzheimer's disease.</p>
+
+            <p>And the two results I actually care about: on a cohort of 83 programs whose outcomes were disclosed after the system's January 2025 information boundary, average precision was 0.92. On a separate, non-overlapping set of 15 programs where the prediction was archived with a verifiable timestamp before the outcome was public, it was 0.87.</p>
+
+            <p><strong>Where the 391 Came From</strong></p>
+
+            <p>People assume a benchmark this specific was hand-picked, so it is worth saying plainly how it was built.</p>
+
+            <p>We wrote eligibility rules and applied them to the public record. A program qualified if it had a validated public structure, a defined indication, and a verifiable outcome, and for failures, a discontinuation attributable to a documented scientific or clinical cause rather than a commercial one. 199 failures and 192 approvals is what came back. That is close to the whole recoverable universe, not a sample of a larger pool we chose from, and assembling it took the better part of a year of work.</p>
+
+            <p>391 manually verified molecule-target-indication outcomes is a substantial labeled set by the standards of this problem. It is also nothing like the scale supervised classification usually assumes, which is the subject of the next post and the reason the architecture looks the way it does.</p>
+
+            <p>One number in this series is genuinely small, and I will flag it every time it appears: the externally timestamped cohort, where each prediction was archived before the outcome was public, has 15 resolved programs so far, with 193 more registered and still running. That cohort is simultaneously the strongest evidence in the paper and the thinnest. Both are worth saying out loud.</p>
+
+            <p><strong>The Series</strong></p>
+
+            <ol>
+                <li>This post.</li>
+                <li><strong>There Is No Protein Data Bank for Clinical Failure.</strong> Why the obvious approach, train a supervised classifier on historical outcomes, does not work here, and why chemical heuristics cap out well below what you need.</li>
+                <li><strong>Four Specialists, One Room, and No Anchoring.</strong> The architecture, and the design decisions I would defend hardest.</li>
+                <li><strong>Does It Separate the Winners from the Losers?</strong> The core discrimination result, including the drugs it got embarrassingly wrong.</li>
+                <li><strong>We Ran the Same Drug One Hundred Times.</strong> 39,100 evaluations, and what score variance tells you that a point estimate cannot.</li>
+                <li><strong>Being Right Is Not Enough.</strong> Liability concordance: whether the system fails a drug for the reason it actually failed.</li>
+                <li><strong>What the Architecture Actually Buys You.</strong> The ablation, against chemistry-only and against three frontier models reasoning unassisted.</li>
+                <li><strong>Clinical Risk Is Not a Property of a Molecule.</strong> Route and indication, and risk as a navigable landscape rather than a verdict.</li>
+                <li><strong>The Predictions We Made Before the Answers Existed.</strong> The post-freeze and timestamped cohorts.</li>
+                <li><strong>Everything This Does Not Prove.</strong> The limitations essay, and why the next step is a standard rather than a product.</li>
+            </ol>
+
+            <p>If you work on generative chemistry, on agentic systems for science, or on the capital allocation side of all this, I would like to hear where you think this breaks. More on the platform at <a href="https://www.saisho.ai/">saisho.ai</a>.</p>
+        </div>
+        <a href="../index.html" class="back-link">&larr; Back to Home</a>
+    </div>
+</body>
+</html>
