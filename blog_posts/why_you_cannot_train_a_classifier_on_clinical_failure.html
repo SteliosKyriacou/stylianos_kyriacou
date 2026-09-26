@@ -45,17 +45,17 @@
 
             <p>It is the right instinct. It is what worked for structure prediction, and it is what has worked for most of the wins in applied ML over the last decade. It does not work here, and the reasons are worth being precise about, because they determine what you have to build instead.</p>
 
-            <p><strong>The Dataset Does Not Exist</strong></p>
+            <p><strong>The Records Exist. The Labels Do Not.</strong></p>
 
-            <p>Eric Schmidt and Suhas Mahesh made the argument better than I can in MIT Technology Review, and I have quoted it before: AlphaFold worked because the Protein Data Bank existed first. Roughly 170,000 structures, accumulated over 53 years, representing an enormous amount of experimental labor. The model was the last step, not the first one.</p>
+            <p>Clinical trial records are not scarce. ClinicalTrials.gov alone holds several hundred thousand registered studies, and regulatory filings, company disclosures and the primary literature add more on top. If this were a record-keeping problem it would have been solved a long time ago.</p>
 
-            <p>Now count the clinical outcome record. Our retrospective benchmark was assembled one program at a time from public trial registries, regulatory filings, company disclosures, and the primary literature. To be included, a program needed a validated public structure, a defined indication, and a verifiable outcome. Failures had to be independently confirmable and attributable to a scientific or clinical cause rather than a commercial one, because a drug shelved in a reprioritization tells you nothing about its biology.</p>
+            <p>What does not exist is a <em>trainable</em> set, and the distinction is the whole point. To learn anything from a program you need four things joined to each other: a validated structure, the target or mechanism, the indication, and an outcome you can both verify and attribute to a cause. Registries give you the indication reliably. They give you the structure inconsistently, because the registered intervention is a code name far more often than it is a SMILES. And they give you an attributable outcome almost never. A terminated trial is recorded as terminated, usually with no public statement of why, and when a reason does appear it is frequently commercial. A drug shelved in a portfolio reprioritization tells you nothing about its biology, and a model trained on it learns that a budget decision is a scientific signal.</p>
 
-            <p>That process produced 391 programs, and this is the part that matters: 391 is close to everything cleanly recoverable. It is not a slice of a larger corpus we are holding back, and it is not a number we could raise by working harder.</p>
+            <p>So the record is large and the usable subset is small. Our retrospective benchmark was assembled one program at a time from exactly those sources, applying exactly those requirements. That process produced 391 programs, and this is the part that matters: 391 is close to everything cleanly recoverable. It is not a slice of a larger corpus we are holding back, and it is not a number we could raise by working harder.</p>
 
-            <p>Set that against 170,000 protein structures. The entire public clinical outcome record, assembled exhaustively, is several orders of magnitude smaller than the labeled datasets supervised classification normally assumes.</p>
+            <p>Eric Schmidt and Suhas Mahesh made the comparison better than I can in MIT Technology Review, and I have quoted it before: AlphaFold worked because the Protein Data Bank existed first. Roughly 170,000 structures, accumulated over 53 years, each one verified. The model was the last step, not the first. The analogue here is not the registry, which is enormous. It is the set of verified, attributable outcomes, and that set is three orders of magnitude smaller.</p>
 
-            <p>And unlike protein structures, there is no crystallography pipeline quietly producing more of them. Each additional label costs a clinical trial. So the constraint is not that our dataset is incomplete. The constraint is that the field's dataset is complete and still small.</p>
+            <p>Unlike protein structures, there is also no pipeline quietly producing more of them. Each additional label costs a clinical trial. The constraint is not that our dataset is incomplete. It is that the field’s usable dataset is close to complete and still small.</p>
 
             <p><strong>Three Ways a Classifier Goes Wrong Here</strong></p>
 
