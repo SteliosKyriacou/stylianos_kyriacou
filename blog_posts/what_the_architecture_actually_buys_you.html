@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>What the Architecture Actually Buys You | Stylianos Kyriacou</title>
+    <link rel="stylesheet" href="../style.css">
+    <style>
+        .blog-post-content img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+        .back-link {
+            display: inline-block;
+            margin-top: 40px;
+            margin-bottom: 20px;
+            font-weight: 500;
+        }
+        .post-subtitle {
+            color: var(--text-secondary);
+            font-size: 18px;
+            font-weight: 300;
+        }
+        .blog-post-content figure { margin: 30px 0; }
+        .blog-post-content figcaption {
+            font-size: 14px;
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin-top: -8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="../index.html" class="back-link">&larr; Back to Home</a>
+        <div class="blog-post-content">
+            <h1>What the Architecture Actually Buys You</h1>
+<p class="post-byline">Author: Stylianos Kyriacou</p>
+
+            <p class="post-subtitle">Post 7 of 9 on SAISHO’s clinical-outcomes prediction model.</p>
+
+            <p>I have been promising this post since post 3, because it answers the only objection to SAISHO that I think is genuinely serious.</p>
+
+            <p>The objection: frontier models are extraordinarily capable. You hand one a structure, a target and an indication, and it can reason about drug development at a level that would have been science fiction three years ago. All your orchestration might be an expensive way of arriving where a single well-posed prompt already gets you.</p>
+
+            <p>This is not a strawman. It is the first question every technical investor asks and it is the right one. The only acceptable answer is a measurement.</p>
+
+            <p><strong>The Comparison</strong></p>
+
+            <figure><img src="../assets/blog/saisho/fig4ab-ablation.png" alt="Left: multi-domain SAISHO versus chemistry-only, bootstrap distributions of average precision. Right: SAISHO versus GPT-5.6 Sol, Opus 5 and Gemini 3.1 Pro evaluating the same inputs in a single unstructured pass."></figure>
+
+            <p>Same cohort, same inputs, same scoring, 1,000 program-level bootstrap resamples for every condition. Boxes are interquartile ranges, whiskers extend to 1.5 times the IQR.</p>
+
+            <p><strong>Complete SAISHO workflow: median average precision 0.90.</strong></p>
+
+            <p><strong>Chemistry-only SAISHO: approximately 0.72.</strong> This is the platform with biology, pharmacology and toxicology removed. Structure-only reasoning.</p>
+
+            <p><strong>Single-pass frontier models, same inputs, no scaffolding:</strong> GPT-5.6 Sol at extra-high reasoning effort, approximately 0.61. Opus 5 at high reasoning effort, approximately 0.60. Gemini 3.1 Pro, approximately 0.56.</p>
+
+            <p>The complete workflow exceeds chemistry-only by about 18 points of average precision, and the strongest single-pass baseline by about 29 points.</p>
+
+            <p><strong>Two Things Worth Pulling Out</strong></p>
+
+            <p><strong>First, the chemistry agent is not a weak component.</strong> At 0.72 it comfortably beats every frontier model answering directly. It is a carefully engineered predictor and it works.</p>
+
+            <p>But it has a ceiling, and the ceiling sits 18 points below what four domains reconciled achieve. This is the cleanest evidence in the paper that the gain is architectural. Remove three of four perspectives from a good predictor and you lose a large, reproducible amount of performance. Not because the remaining predictor got worse, but because clinical viability has components that structure cannot see.</p>
+
+            <p><strong>Second, and I want to be careful here, because it would be easy to read the frontier-model numbers as a knock on those models.</strong> It is not. These are exceptional systems. Every agent in the SAISHO board runs on them. We are not competing with frontier models; we are built on top of them, and if they get better, so do we.</p>
+
+            <p>What the result says is narrower and I think more interesting: <em>asking a frontier model "will this drug succeed in the clinic" in one pass is the wrong shape of question.</em></p>
+
+            <p>It collapses four genuinely distinct expert judgments into one undifferentiated forward pass. Is the target biology causal. Is the therapeutic window survivable. Will the PK support a viable dose at the site of action. Is the scaffold developable. In a single pass, a confident answer on one dimension papers over a fatal problem on another, because there is no mechanism forcing the model to hold four incompatible concerns in view simultaneously and reconcile them.</p>
+
+            <p>Nobody would run a real drug review board that way. We do not run this one that way either.</p>
+
+            <p>Note also that 0.56 to 0.61 is not chance. Against a prevalence baseline of 0.49, the frontier models are genuinely above the floor. They know things. They are just not organized.</p>
+
+            <p><strong>The Specialists Are Individually Insufficient</strong></p>
+
+            <figure><img src="../assets/blog/saisho/fig4c-orchestrator-gain.png" alt="Orchestrator advantage over each domain specialist in program-level liability detection, with 95% paired bootstrap confidence intervals and Holm-adjusted P values."></figure>
+
+            <p>This is the same point measured a different way, on the liability detection from post 6 rather than on discrimination.</p>
+
+            <p>Across the same 199 failed programs, the reconciled output detected documented liabilities more often than Toxicology by about 10 percentage points, Chemistry by 26, Biology by 43, and Pharmacology by 45. All four comparisons are paired (same programs, McNemar's exact test, 1,000 paired bootstrap resamples, Holm-corrected across the four), and all four remain significant at Holm-adjusted P &lt; 0.001 with confidence intervals excluding zero.</p>
+
+            <p>The ordering is informative rather than arbitrary. The smallest gap is against Toxicology, which makes sense: toxicity is the largest failure category in the cohort and toxicology is excellent at it, so the orchestrator has less to add. The largest gaps are against Biology and Pharmacology, whose expertise is genuinely deep but narrow across the full failure landscape.</p>
+
+            <p>And the containment result is the one I find most convincing: every program Chemistry detected was also detected by the orchestrator, which then found documented liabilities in a substantial number of additional programs. The reconciliation is not trading one blind spot for another. It is strictly additive over that specialist.</p>
+
+            <p><strong>Reasoning as Architecture</strong></p>
+
+            <p>Schmidt and Mahesh argued in MIT Technology Review that agents that reason represent a foundational change rather than a better tool, and that most scientific fields will never get their Protein Data Bank. I quoted that in a post earlier this year and I keep coming back to it, because these numbers are what that argument looks like when you put a number on it.</p>
+
+            <p>Nothing about the underlying model changed between 0.56 and 0.90. Same frontier systems, same inputs, same cohort, same scoring. What changed is that we decomposed the question into the judgments it actually consists of, ran them independently so they could not anchor on each other, and forced a reconciliation that had to resolve the contradictions.</p>
+
+            <p>The unit of progress stops being the model and starts being the reasoning process built around it.</p>
+
+            <p><strong>What This Does Not Show</strong></p>
+
+            <p>This is the limitation I would put in bold in the paper, and it is in there.</p>
+
+            <p>The complete workflow differs from the baselines in <em>multiple</em> respects at once: domain-specific decomposition, expert grounding, tool access (co-folding, QSAR, ADME-Tox), substantially more inference-time computation, and the reconciliation step. The comparison supports the assembled workflow as a package. It does not isolate the contribution of any single component.</p>
+
+            <p>It is entirely possible that a large share of the 29 points comes from inference-time compute rather than from the decomposition specifically. I do not think that is the whole story, because the chemistry-only condition also gets tool access and substantial compute and still lands at 0.72. But "I do not think so" is not a measurement. Targeted ablations that vary one component at a time are needed to quantify the individual contributions, and we have not run them.</p>
+
+            <p>Anyone who tells you their multi-agent system's gains come from the agents specifically, without having held compute fixed, is telling you what they believe rather than what they measured.</p>
+
+            <p>Next week: what happens when you keep the molecule and change everything around it.</p>
+
+            <p>More on the platform at <a href="https://www.saisho.ai/">saisho.ai</a>.</p>
+        </div>
+        <hr>
+        <a href="../index.html" class="back-link">&larr; Back to Home</a>
+    </div>
+</body>
+</html>

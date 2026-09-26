@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clinical Risk Is Not a Property of a Molecule | Stylianos Kyriacou</title>
+    <link rel="stylesheet" href="../style.css">
+    <style>
+        .blog-post-content img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+        .back-link {
+            display: inline-block;
+            margin-top: 40px;
+            margin-bottom: 20px;
+            font-weight: 500;
+        }
+        .post-subtitle {
+            color: var(--text-secondary);
+            font-size: 18px;
+            font-weight: 300;
+        }
+        .blog-post-content figure { margin: 30px 0; }
+        .blog-post-content figcaption {
+            font-size: 14px;
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin-top: -8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="../index.html" class="back-link">&larr; Back to Home</a>
+        <div class="blog-post-content">
+            <h1>Clinical Risk Is Not a Property of a Molecule</h1>
+<p class="post-byline">Author: Stylianos Kyriacou</p>
+
+            <p class="post-subtitle">Post 8 of 9 on SAISHO’s clinical-outcomes prediction model.</p>
+
+            <p>Every predictive model in drug discovery that I have worked on, including several I built, shares a hidden assumption: that you can score a molecule.</p>
+
+            <p>You feed in a structure, you get back a number. The number belongs to the structure. Change the structure, change the number.</p>
+
+            <p>That assumption is wrong for clinical outcomes, and this post is the experiment that demonstrates it. It is also, commercially, the most interesting result in the paper, because it converts a verdict into a map.</p>
+
+            <p><strong>The Test</strong></p>
+
+            <p>The claim from post 2 was that clinical viability emerges from the interaction between molecule, target, disease context, and how the drug is delivered. If that is true, then holding the molecule completely fixed and changing only its context should move the predicted risk.</p>
+
+            <p>If the score does not move, the system is scoring chemistry with extra steps.</p>
+
+            <p>So we held molecules fixed and varied two things: the delivery route, and the indication.</p>
+
+            <p><strong>Ruxolitinib Through Five Routes</strong></p>
+
+            <figure><img src="../assets/blog/saisho/fig4d-route.png" alt="Clinical Risk Scores for ruxolitinib across five administration routes in two disease settings: localized atopic dermatitis and systemic intermediate or high-risk myelofibrosis."></figure>
+
+            <p>Ruxolitinib is a JAK1/JAK2 inhibitor, and it is the ideal test case because reality has already run the experiment. It is approved as a topical cream for atopic dermatitis and as an oral therapy for intermediate or high-risk myelofibrosis. Same active molecule, two routes, two diseases, both successful.</p>
+
+            <p>We evaluated it across five routes in both settings.</p>
+
+            <p>In localized atopic dermatitis: <strong>topical 2</strong>, oral 28, subcutaneous 48, intravenous 72, inhaled 78.</p>
+
+            <p>In systemic myelofibrosis the ordering reorganizes: <strong>oral 20</strong>, intravenous 22, subcutaneous 27, topical 43, inhaled 77.</p>
+
+            <p>Look at what topical does. It is the lowest-risk option in atopic dermatitis at 2 and jumps to 43 in myelofibrosis. That is the model saying something specific and correct: a cream cannot achieve the systemic target engagement that a bone marrow disease requires. It is not penalizing topical delivery. It is penalizing topical delivery <em>for a systemic disease</em>.</p>
+
+            <p>Meanwhile inhaled delivery stays high in both settings, 78 and 77, which is the right answer for different reasons in each case.</p>
+
+            <p>For both indications, SAISHO ranked the clinically established route as the lowest-risk option. Topical for atopic dermatitis, oral for myelofibrosis. Without being told which was which.</p>
+
+            <p><strong>Six Molecules, Two Indications Each</strong></p>
+
+            <figure><img src="../assets/blog/saisho/fig4e-indication.png" alt="Six molecules, each evaluated in an FDA-approved indication and in a separate indication whose clinical program did not succeed. SAISHO assigned the higher risk score to the failed program in all six pairs."></figure>
+
+            <p>The route experiment shows sensitivity. This one shows discrimination.</p>
+
+            <p>We took six small molecules, each of which has an FDA-approved indication <em>and</em> a separate indication where the clinical program did not succeed: valacyclovir, rivaroxaban, methotrexate, sildenafil, tradipitant, and brensocatib.</p>
+
+            <p>Identical molecule, identical target, identical chemistry. The only variable is the disease.</p>
+
+            <p>SAISHO assigned the higher risk score to the failed program in <strong>all six pairs</strong>. Median 21.5 for the approved indications versus 65.5 for the failed ones. Exact paired Wilcoxon, P = 0.031, which is the smallest P value available with six pairs.</p>
+
+            <p>The largest separation was valacyclovir: <strong>1</strong> for herpes zoster, <strong>88</strong> for early symptomatic Alzheimer's disease. In the VALAD randomized trial, valacyclovir failed to slow cognitive decline and was associated with greater cognitive worsening than placebo. An 87-point swing on an unchanged structure and an unchanged target, driven entirely by the disease hypothesis.</p>
+
+            <p>One detail matters for how much weight to put on this: four of the six failed outcomes were first publicly reported after the January 2025 model freeze. That is a small prospective element inside a retrospective analysis, and the systematic version of that test is post 9.</p>
+
+            <p><strong>Why This Changes What the Tool Is For</strong></p>
+
+            <p>If risk were a property of a molecule, a risk model would be a filter. You would run your library through it, keep the survivors, and move on.</p>
+
+            <p>Because risk is a property of the complete program, the model is a search space instead.</p>
+
+            <p>You can hold a molecule fixed and ask what indication minimizes its risk. You can hold an indication fixed and ask which route buys you the most margin. You can ask which of the six liabilities the board flagged are molecule-level (fixable by chemistry) and which are program-level (fixable only by repositioning), which is the distinction from post 6.</p>
+
+            <p>That turns clinical risk from a verdict into a navigable landscape. And navigating it costs an inference run rather than a clinical trial, which is the entire argument for doing it early.</p>
+
+            <p>For a shelved asset in particular, the question "was this molecule wrong, or was the indication wrong" is worth a great deal of money and is currently answered by intuition. Being able to map it systematically, before committing, is a different kind of tool from a filter.</p>
+
+            <p><strong>What This Does Not Show</strong></p>
+
+            <p>It does not show that a lower-scoring route or an alternative indication will actually succeed. It shows that the framework generates testable, context-specific hypotheses rather than treating risk as immutable. Those are very different claims and I want to be unambiguous about which one I am making.</p>
+
+            <p>The ruxolitinib result has a real-world anchor for two of its ten route-indication pairs. The other eight are plausible and unvalidated. Nobody has run inhaled ruxolitinib for myelofibrosis, and the score of 77 is a hypothesis, not a finding.</p>
+
+            <p>The six-molecule indication comparison is six pairs. P = 0.031 is the floor of what six paired observations can produce, and it should be read as consistent with the hypothesis rather than as strong independent confirmation.</p>
+
+            <p>All of this is small molecules. Extending to other modalities requires modality-specific evaluation capability and separate validation, and I would be skeptical of anyone claiming a small-molecule framework transfers to, say, a delivery-vehicle-dominated modality without being rebuilt for it. The underlying principle, decompose viability into specialized judgments and reconcile them at the program level, is not modality-specific. The implementation very much is.</p>
+
+            <p>Next week: the part that cannot be gamed by curation. Predictions archived before the outcomes existed.</p>
+
+            <p>More on the platform at <a href="https://www.saisho.ai/">saisho.ai</a>.</p>
+        </div>
+        <hr>
+        <a href="../index.html" class="back-link">&larr; Back to Home</a>
+    </div>
+</body>
+</html>

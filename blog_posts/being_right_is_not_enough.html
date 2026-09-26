@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Being Right Is Not Enough. You Have to Be Right for the Right Reason. | Stylianos Kyriacou</title>
+    <link rel="stylesheet" href="../style.css">
+    <style>
+        .blog-post-content img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+        .back-link {
+            display: inline-block;
+            margin-top: 40px;
+            margin-bottom: 20px;
+            font-weight: 500;
+        }
+        .post-subtitle {
+            color: var(--text-secondary);
+            font-size: 18px;
+            font-weight: 300;
+        }
+        .blog-post-content figure { margin: 30px 0; }
+        .blog-post-content figcaption {
+            font-size: 14px;
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin-top: -8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="../index.html" class="back-link">&larr; Back to Home</a>
+        <div class="blog-post-content">
+            <h1>Being Right Is Not Enough. You Have to Be Right for the Right Reason.</h1>
+<p class="post-byline">Author: Stylianos Kyriacou</p>
+
+            <p class="post-subtitle">Post 6 of 9 on SAISHO’s clinical-outcomes prediction model.</p>
+
+            <p>A model that assigns high risk to drugs that failed, but for reasons unrelated to why they failed, has learned something. It has just not learned the thing you would act on.</p>
+
+            <p>Predicting failure is half the job. The half that changes a decision is <em>what kind</em> of failure. A chemical liability invites redesign. An exposure problem invites a different route or dosing strategy. A biological limitation invites a different indication, or abandoning the target. Those are three completely different Mondays, and a scalar cannot distinguish them.</p>
+
+            <p>So we tested it directly.</p>
+
+            <p><strong>How You Measure This Without Fooling Yourself</strong></p>
+
+            <p>For all 199 failed or withdrawn programs, one of the authors curated the documented reasons for discontinuation from the public record, before looking at any SAISHO output. Programs can have more than one documented reason. The reasons were separated, assigned to eight liability categories, and deduplicated within program and category. Categories with fewer than ten programs were folded into mechanistically related ones.</p>
+
+            <p>All SAISHO reports were finalized under the leakage-control protocol before any comparison happened.</p>
+
+            <p>Then two distinct measures, both defined over the 100 independent runs per program:</p>
+
+            <p><strong>Primary-Liability Concordance</strong> is positive when the <em>reconciled</em> assessment prioritized a documented liability as the program's primary concern in more than 50 of 100 runs.</p>
+
+            <p><strong>Cross-Domain Liability Detection</strong> is positive when at least one of the four domain specialists identified a documented liability, again in more than 50 of 100 runs.</p>
+
+            <p>The distinction is real and worth an example. Suppose cardiotoxicity was the documented reason a program died. One specialist flags it in 60 runs, but the reconciled report prioritizes it in only</p>
+
+            <p>30. That program is positive for Cross-Domain Detection and negative for Primary-Liability</p>
+
+            <p>Concordance. Somebody in the room saw it; the room did not act on it.</p>
+
+            <p>Only the top-level prioritized rationale was analyzed. Lower-priority findings buried elsewhere in the assessment do not count, which is the strict reading and the one I would want applied to someone else's system.</p>
+
+            <p><strong>The Result</strong></p>
+
+            <figure><img src="../assets/blog/saisho/fig3a-concordance.png" alt="Primary-liability concordance by failure category, with 95% Wilson intervals. Overall 153/199, efficacy 24/51, PK/ADME 11/15, toxicities 128/148, with six toxicity subcategories."></figure>
+
+            <p>The reconciled rationale matched a documented failure liability in <strong>153 of 199 programs, 77%</strong>, with a 95% confidence interval of 71 to 82%. Cross-Domain Detection extends that to <strong>165 of 199, 83%</strong>.</p>
+
+            <p>So in more than three quarters of failed programs, the system prioritized a liability from the same category that was actually reported as contributing to discontinuation, and the full specialist panel found a corresponding liability in more than four fifths.</p>
+
+            <p>The category breakdown is where it gets honest.</p>
+
+            <p>Toxicity is strong: 128 of 148 overall, and within it cardiotoxicity at 36 of 37, CNS and neurotoxicity at 23 of 24, hepatotoxicity at 35 of 42. PK/ADME is 11 of 15, on a small enough denominator that the confidence interval is wide.</p>
+
+            <p>Efficacy is 24 of 51. That is 47%, and it is the weakest number in the paper.</p>
+
+            <p><strong>Why Efficacy Is Hard, and Why I Am Not Explaining It Away</strong></p>
+
+            <p>Efficacy accounts for roughly half of all Phase 2 and Phase 3 failures industry-wide. It is the single largest failure mode and we catch it least well. That is a real limitation, not a rounding error.</p>
+
+            <p>Some of the gap is definitional. "Lack of efficacy" in a press release does not mean the drug was biologically inert. It can mean the benefit was real but too small, or that exposure was inadequate, or that dosing was capped by toxicity before it reached a therapeutic level. Efficacy and safety failures overlap, and the public record frequently does not resolve which one was operating. Some of our misses may be category assignment rather than missed signal, and there is no clean way to separate those.</p>
+
+            <p>But some of it is genuinely hard. Predicting that a target will not deliver clinical benefit, from structure, mechanism and indication alone, means predicting the behaviour of a pathway in a diseased human system. Identifying a relevant liability in about half of those programs using only three inputs is, I think, encouraging rather than impressive. The way forward is more inputs (target engagement data, adaptive resistance, patient selection) rather than better prompting, and that is a roadmap item, not a result.</p>
+
+            <p><strong>No Single Specialist Is Good Enough</strong></p>
+
+            <figure><img src="../assets/blog/saisho/fig3b-heatmap.png" alt="Program-level liability concordance by rationale. Rows are overall, efficacy, PK/ADME and toxicity; columns are the orchestrator and the four domain specialists."></figure>
+
+            <p>Read this heatmap column by column and the argument for the architecture writes itself.</p>
+
+            <p>Toxicology is the best single source for toxicity failures at 87%. Pharmacology dominates PK/ADME at 87%. Biology leads on efficacy at 49%, and 49% is the <em>best</em> any single domain achieves there.</p>
+
+            <p>Now read the rows. No specialist is good across the board. Toxicology sees 16% of efficacy failures. Pharmacology sees 14%. Biology sees 13% of PK/ADME failures. Each one is excellent inside its lane and close to blind outside it, which is exactly what you would expect, because that is what specialization means.</p>
+
+            <p>The orchestrator column is 77%, 47%, 73%, 86%. It is not the best in any single row except overall. It is the only column that is never catastrophic.</p>
+
+            <p>That is the whole thesis in one grid. The system is not smarter than its specialists. It has fewer blind spots than any of them.</p>
+
+            <p><strong>Two Drugs, Same Score, Opposite Decisions</strong></p>
+
+            <figure><img src="../assets/blog/saisho/fig3c-sitaxentan.png" alt="Sitaxentan case study. Benzodioxole and thiophene motifs highlighted, with predicted bioactivation and hepatotoxicity liabilities recurring at 100/100 runs."></figure>
+
+            <p>Sitaxentan, an endothelin receptor antagonist, was withdrawn after severe and sometimes fatal liver injury. Median Clinical Risk Score 72. SAISHO identified benzodioxole bioactivation to a reactive ortho-quinone and time-dependent CYP3A4 inhibition as the dominant liabilities, recurring at 100 of 100 runs. Those predictions are consistent with published experimental work on sitaxentan bioactivation in human liver microsomes and hepatocytes.</p>
+
+            <figure><img src="../assets/blog/saisho/fig3d-intepirdine.png" alt="Intepirdine case study. Favorable pharmacology and manageable predicted toxicity, but target-biology limitations to efficacy flagged at 100/100 runs."></figure>
+
+            <p>Intepirdine, a 5-HT6 receptor antagonist, failed Phase 3 in Alzheimer's disease. Median Clinical Risk Score 81. SAISHO judged the pharmacology favorable and the predicted toxicity manageable, and flagged instead that indirect neurotransmitter modulation would provide insufficient clinical benefit in established neurodegeneration.</p>
+
+            <p>Two comparably high scores. Completely different implications.</p>
+
+            <p>Sitaxentan points at a structural and metabolic liability. That is a medicinal chemistry problem, and it is potentially solvable: replace the motif, kill the bioactivation, keep the pharmacology.</p>
+
+            <p>Intepirdine points at a target that is not going to deliver. No amount of chemical optimization fixes that. The response is a different target, a combination strategy, or a different disease.</p>
+
+            <p>If you reported both as "81 and 72, high risk", you would have destroyed the only information that tells a team what to do next.</p>
+
+            <p><strong>What This Does Not Show</strong></p>
+
+            <p>Concordance is not causation. Clinical discontinuation is usually multifactorial, and public reports are often incomplete or strategically worded. Matching a documented liability means SAISHO surfaced a clinically relevant hypothesis that agrees with the record. It does not establish that this was the exclusive cause, and it does not promise that fixing it would have saved the program.</p>
+
+            <p>The matching is also automated. An ontology searches the prioritized rationales, handling concept direction and local negation, and counts only affirmative liability statements. That is reproducible and it is not blinded human adjudication. The ontology and category assignments were developed iteratively during the analysis rather than preregistered, which is a real methodological weakness and is stated as one in the paper.</p>
+
+            <p>What these outputs generate is testable hypotheses for experimental follow-up and portfolio review. That is a useful thing to generate. It is not a causal claim.</p>
+
+            <p>Next week: the ablation, and how much of this is the architecture versus the model underneath it.</p>
+
+            <p>More on the platform at <a href="https://www.saisho.ai/">saisho.ai</a>.</p>
+        </div>
+        <hr>
+        <a href="../index.html" class="back-link">&larr; Back to Home</a>
+    </div>
+</body>
+</html>

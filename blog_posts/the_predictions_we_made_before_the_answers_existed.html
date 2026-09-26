@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Predictions We Made Before the Answers Existed | Stylianos Kyriacou</title>
+    <link rel="stylesheet" href="../style.css">
+    <style>
+        .blog-post-content img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+        .back-link {
+            display: inline-block;
+            margin-top: 40px;
+            margin-bottom: 20px;
+            font-weight: 500;
+        }
+        .post-subtitle {
+            color: var(--text-secondary);
+            font-size: 18px;
+            font-weight: 300;
+        }
+        .blog-post-content figure { margin: 30px 0; }
+        .blog-post-content figcaption {
+            font-size: 14px;
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin-top: -8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="../index.html" class="back-link">&larr; Back to Home</a>
+        <div class="blog-post-content">
+            <h1>The Predictions We Made Before the Answers Existed</h1>
+<p class="post-byline">Author: Stylianos Kyriacou</p>
+
+            <p class="post-subtitle">Post 9 of 9 on SAISHO’s clinical-outcomes prediction model.</p>
+
+            <p>Every number in this series so far shares a weakness, and it is the weakness that makes most retrospective ML in drug discovery unconvincing.</p>
+
+            <p>The outcomes already happened. They are in the public record. They are, almost certainly, somewhere in the pretraining corpus of the models underneath our agents.</p>
+
+            <p>We imposed leakage controls: no outcome labels, no compound names or development codes or brand aliases or registry identifiers in the inputs, web search disabled, chemical-similarity search against known clinical programs disabled. Those controls are real and they govern what SAISHO retrieves and reasons over.</p>
+
+            <p>They cannot reach inside a foundation model and remove what it already knows. A SMILES string is a fingerprint. If a model has seen enough medicinal chemistry literature, it may recognize sitaxentan from its structure without being told the name, and recognition is not reasoning.</p>
+
+            <p>I do not think that explains our results. But "I do not think so" is not evidence. So we built the test that does not depend on my opinion.</p>
+
+            <p><strong>Freezing the Clock</strong></p>
+
+            <p>SAISHO was operated against a fixed information boundary in January 2025. The training data of the underlying foundation models, and the expert-distilled knowledge in the framework, were restricted to information available before that date. Prompts, orchestration logic and the reconciliation step were held constant across every analysis in the paper.</p>
+
+            <p>Two cohorts come out of that, and they are different tests. I keep them separate throughout, because conflating them would overstate the stronger one.</p>
+
+            <p><strong>The post-freeze cohort (N = 83).</strong> Programs whose outcomes were disclosed after the January 2025 boundary. 53 approvals, 30 failures. Assembled retrospectively, but the outcome could not have been in the model's world when the prediction was made.</p>
+
+            <p><strong>The externally timestamped, pre-outcome cohort.</strong> A separate, non-overlapping pool of programs whose scores were computed and archived with a verifiable timestamp <em>before</em> the trial results were public. Archival is through GitHub or DocuSign, so there is an externally checkable record of both the prediction and its date. 208 programs registered. As of 10 August 2026, 15 had reached a publicly disclosed outcome (10 approvals, 5 failures) and 193 were still running.</p>
+
+            <p>The second cohort is the one that cannot be gamed by curation choices, and it is the one with 15 resolved outcomes in it. Both facts matter.</p>
+
+            <figure><img src="../assets/blog/saisho/fig5-prospective.png" alt="Clinical Risk Score distribution across 291 evaluated programs with approvals, failures and ongoing programs; post-freeze outcome proportions by risk tier; and precision-recall curves for the post-freeze and timestamped cohorts."><figcaption>Figure 5. <strong>a</strong>, distribution across 291 programs: 63 approvals, 35 failures, 193 ongoing, with four timestamped cases annotated. <strong>b</strong>, observed outcome proportions by risk tier in the post-freeze cohort. <strong>c</strong>, precision-recall for the post-freeze cohort, AP 0.918 against a 0.64 baseline. <strong>d</strong>, precision-recall for the timestamped cohort, AP 0.866 against a 0.67 baseline.</figcaption></figure>
+
+            <p><strong>Post-Freeze: AUPRC 0.92</strong></p>
+
+            <p>On the 83 post-freeze programs, inverse Clinical Risk Score predicted approval with an average precision of <strong>0.92</strong>, against an approved-class prevalence baseline of 0.64.</p>
+
+            <p>The tier structure held, and this is the part I would show a development committee. Every program in the three lowest risk tiers was subsequently approved. Observed failure rates generally increased with score, and reached 100% in the two highest tiers.</p>
+
+            <p>That is the property you need for the score to be usable. It is not enough that high scores fail more often on average. You need the tails to be clean, because the tails are where you act.</p>
+
+            <p><strong>Timestamped: AUPRC 0.87 on Fifteen</strong></p>
+
+            <p>On the 15 resolved timestamped programs, average precision was <strong>0.87</strong> against a prevalence baseline of 0.67. The gradient held: approvals low, failures high.</p>
+
+            <p>Four of them are annotated on the figure.</p>
+
+            <p>Zidesamtinib, for previously treated ROS1-positive non-small cell lung cancer, scored <strong>2</strong>. It was approved by the FDA in July 2026.</p>
+
+            <p>Oveporexton, for narcolepsy type 1, scored <strong>34</strong>. Approved in August 2026 as the first drug to treat the full range of narcolepsy type 1 symptoms.</p>
+
+            <p>Pociredir, in sickle cell disease, scored <strong>71</strong>. Fulcrum discontinued the program in June 2026.</p>
+
+            <p>Fasedienol, for acute treatment of social anxiety disorder, scored <strong>50</strong>. Vistagen reported topline PALISADE-4 data in June 2026 that did not support the program.</p>
+
+            <p>Note fasedienol at 50. That is the system declining to commit, on a program that then failed. I would rather show you a 50 that went on to fail than quietly drop it, because a risk score whose middle tier means nothing is a risk score with a very narrow useful range. Post 5 makes the companion point: score dispersion is highest exactly in this band, and a 50 with a wide spread should be read as "we do not know", which is a legitimate and sometimes correct output.</p>
+
+            <p><strong>Why the 193 Matter More Than the 15</strong></p>
+
+            <p>The 193 ongoing programs are the actual point of this exercise.</p>
+
+            <p>Every one of them has a score, archived with a timestamp, sitting in a record neither we nor anyone else can edit. They will resolve on their own schedule over the next several years, and each resolution is a data point that we cannot curate, cannot select, and cannot reframe after the fact.</p>
+
+            <p>This is the only form of validation in clinical prediction that fully survives adversarial reading. Everything else, including everything in posts 4 through 8, depends to some degree on trusting our curation. A timestamped prediction on a program that has not read out does not.</p>
+
+            <p>It is also the slowest possible way to prove a point, and I have made peace with that. Larger timestamped cohorts, externally curated benchmarks, and prospectively defined inclusion and adjudication criteria are all in progress.</p>
+
+            <p><strong>What This Does Not Show</strong></p>
+
+            <p>Fifteen resolved outcomes is fifteen. The confidence interval around an average precision computed on 10 approvals and 5 failures is wide enough to drive a truck through, and I am not going to pretend otherwise. This cohort's value is qualitative: it demonstrates that the system <em>can</em> stratify risk before outcomes are known, on a set where leakage is structurally impossible. It does not establish the precision of that stratification.</p>
+
+            <p>The post-freeze cohort is larger at 83 and answers the leakage question rather than the selection question. The outcomes were unavailable to the model when it scored them, but the cohort itself was assembled after the fact, so it is the timestamped set that closes the loop.</p>
+
+            <p>And the deepest limitation is one that no cohort size fixes. Discrimination and liability concordance are proxies. The question that actually matters is whether using SAISHO improves development decisions and clinical success rates, and that requires a prospective study of decisions, not of predictions. We have not run it. Nobody has.</p>
+
+            <p>Next week, the last post: everything this does not prove, collected in one place, and what I think the right next step is.</p>
+
+            <p>More on the platform at <a href="https://www.saisho.ai/">saisho.ai</a>.</p>
+        </div>
+        <hr>
+        <a href="../index.html" class="back-link">&larr; Back to Home</a>
+    </div>
+</body>
+</html>
