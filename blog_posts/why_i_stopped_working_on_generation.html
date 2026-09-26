@@ -46,7 +46,7 @@
 
 <p><strong>From Generation to Selection</strong></p>
 
-<p>I spent a good part of my career building systems that produce molecules. Graph Neural Networks (GNNs) for de novo design at Norachem. Multi-objective optimizers driven by AlphaFold-2 embeddings. Enzyme engineering at industrial scale at Aether. The through line was always the same: treat design as a search problem, then make the search cheap enough to run at scale.</p>
+<p>I spent a good part of my career building systems that produce molecules. Graph Neural Networks (GNNs) for de novo design at <a href="https://www.norachem.io/">Norachem</a>. Multi-objective optimizers driven by AlphaFold-2 embeddings. Enzyme engineering at industrial scale at <a href="https://www.aetherbio.com/">Aether</a>. The through line was always the same: treat design as a search problem, then make the search cheap enough to run at scale.</p>
 
 <p>For practical purposes that problem is solved. Generative chemistry and automated synthesis have collapsed the cost of proposing a plausible candidate to something close to zero. Ten thousand molecules satisfying every heuristic you care to name, generated before lunch.</p>
 
@@ -54,9 +54,9 @@
 
 <p>So we stopped asking how to make more molecules and started asking how to tell, early, which molecule-target-indication combinations survive contact with a patient population.</p>
 
-<p><strong>What We Built</strong></p>
+<p><strong>What I Help Build</strong></p>
 
-<p>SAISHO is our answer. Architecturally it behaves like a drug review board rather than a classifier, and that distinction carries most of the performance, for reasons I will spend post 3 on.</p>
+<p><a href="https://www.saisho.ai/">SAISHO</a> is our answer. Architecturally it behaves like a drug review board rather than a classifier, and that distinction carries most of the performance, for reasons I will spend post 3 on.</p>
 
 <p>Four domain specialists (medicinal chemistry, target biology, pharmacology, toxicology) evaluate the same program independently and in parallel. None of them sees the others’ work while forming a view. That is a deliberate constraint rather than an implementation detail: it removes the anchoring you get when one confident opinion arrives before the rest. A reconciliation pass then ingests all four advisories, resolves the contradictions between them, and emits a single Clinical Risk Score on a 0 to 100 scale (higher is riskier) together with a ranked list of the specific liabilities driving it.</p>
 
