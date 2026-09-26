@@ -40,19 +40,21 @@
 <p class="post-byline">Author: Stylianos Kyriacou</p>
 <p class="post-subtitle">Post 1 of 10 on SAISHO’s clinical-outcomes prediction model.</p>
 
-<p>There is one question in drug development that the industry still answers by running the experiment: will this molecule, against this target, in this indication, become a medicine?</p>
+<p>I spent a big part of my career building systems that produce molecules. Graph Neural Networks (GNNs) for de novo design at <a href="https://www.norachem.io/">Norachem</a>. Multi-objective optimizers driven by AlphaFold-2 embeddings. Enzyme engineering at industrial scale at <a href="https://www.aetherbio.com/">Aether</a>. The through line was always the same: treat design as a search problem, then make the search cheap enough to run at scale.</p>
 
-<p>The experiment is a clinical trial. It takes years, it costs between tens of millions and a couple of billion dollars depending on how far you get before the answer arrives, and roughly nine times out of ten the answer is no. That is the whole problem. Everything I have worked on for the last two years comes back to it.</p>
+<p>For practical purposes that problem is now solved. Generative chemistry and automated synthesis have collapsed the cost of proposing a plausible candidate to something close to zero. Ten thousand molecules satisfying every heuristic you care to name, generated before lunch.</p>
 
-<p><strong>From Generation to Selection</strong></p>
+<p>Which is exactly why I stopped working on it.</p>
 
-<p>I spent a good part of my career building systems that produce molecules. Graph Neural Networks (GNNs) for de novo design at <a href="https://www.norachem.io/">Norachem</a>. Multi-objective optimizers driven by AlphaFold-2 embeddings. Enzyme engineering at industrial scale at <a href="https://www.aetherbio.com/">Aether</a>. The through line was always the same: treat design as a search problem, then make the search cheap enough to run at scale.</p>
+<p><strong>The Question That Costs Two Billion Dollars to Answer</strong></p>
 
-<p>For practical purposes that problem is solved. Generative chemistry and automated synthesis have collapsed the cost of proposing a plausible candidate to something close to zero. Ten thousand molecules satisfying every heuristic you care to name, generated before lunch.</p>
+<p>There is one question in drug development that the industry still answers by running the experiment: will this molecule, against this target, in this indication, become a therapy?</p>
 
-<p>Which means the binding constraint moved. The question is no longer what can we design, it is what should we advance, and those are not the same problem with the same solution. Faster generation without better selection does not fix attrition. It scales it: more candidates entering the same funnel, with the same nine-in-ten failure rate applied to a larger number.</p>
+<p>The experiment is a clinical trial. It takes years, it costs between tens of millions and a couple of billion dollars depending on how far you get before the answer arrives, and roughly nine times out of ten the answer is no.</p>
 
-<p>So we stopped asking how to make more molecules and started asking how to tell, early, which molecule-target-indication combinations survive contact with a patient population.</p>
+<p>Proposing the candidate is close to free. Answering that question is not, and no amount of additional generation makes it cheaper. Faster generation without better selection does not fix attrition, it scales it: more candidates entering the same funnel, with the same nine-in-ten failure rate applied to a larger number. The binding constraint moved from what can we design to what should we advance, and those are not the same problem with the same solution.</p>
+
+<p>So we stopped asking how to make more molecules and started asking how to tell, early, which molecule-target-indication combinations survive contact with a patient population. That is what I have spent the last two years on.</p>
 
 <p><strong>What I Help Build</strong></p>
 
@@ -64,27 +66,19 @@
 
 <p><strong>What We Found</strong></p>
 
-<p>Over the next nine posts I will take the results one at a time. The shape of it, so you know where this is going:</p>
-
 <ul>
 <li>On a benchmark of 391 small-molecule programs with confirmed outcomes, under leakage controls that stripped compound identities and disabled similarity search, the Clinical Risk Score separates approved from failed programs with an AUROC of 0.90 and an average precision of 0.89.</li>
-<li>Across the 199 failed or withdrawn programs in that cohort, the reconciled assessment prioritized a liability matching the documented reason for discontinuation in 153 of them, or 77%. Crediting a match found by any of the four specialists, rather than only the final reconciled view, raises it to 165 programs, or 83%.</li>
+<li>Across the failed or withdrawn programs in that cohort, the reconciled assessment prioritized a liability matching the documented reason for discontinuation 77% of the time. Crediting a match found by any of the four specialists, rather than only the final reconciled view, raises it to 83%.</li>
 <li>Stripped down to chemistry alone, average precision falls from roughly 0.90 to roughly 0.72. A frontier model asked the same question directly, in a single pass, with the same inputs, returns 0.56 to 0.61. The full workflow beats the strongest single-pass baseline by roughly 29 points of average precision.</li>
 <li>Hold the molecule fixed and change only the indication or the delivery route, and the score moves, sometimes enormously. Valacyclovir scores 1 in herpes zoster and 88 in early symptomatic Alzheimer’s disease.</li>
 <li>The two results I actually care about are prospective. On 83 programs whose outcomes were disclosed after the system’s January 2025 information boundary, average precision was 0.92. On a separate, non-overlapping set of 15 programs where the prediction was archived with a verifiable timestamp before the outcome was public, it was 0.87.</li>
 </ul>
 
-<p><strong>Where the 391 Came From</strong></p>
-
-<p>A benchmark this specific invites the assumption that it was hand-picked, so it is worth stating how it was built.</p>
-
-<p>We wrote eligibility rules and applied them to the public record. A program qualified if it had a validated public structure, a defined indication and a verifiable outcome, and, for the failures, a discontinuation attributable to a documented scientific or clinical cause rather than a commercial one. What came back was 199 failures and 192 approvals. That is close to the whole recoverable universe, not a sample drawn from some larger pool we were free to select from, and assembling it took the better part of a year.</p>
-
-<p>391 manually verified molecule-target-indication outcomes is a substantial labeled set by the standards of this problem. It is also nothing like the scale that supervised classification normally assumes. That gap is the subject of the next post, and the reason the architecture looks the way it does.</p>
-
-<p>One number in this series is genuinely small, and I will flag it every time it appears. The externally timestamped cohort, where each prediction was archived before the outcome was public, has 15 resolved programs so far, with 193 more registered and still running. That cohort is simultaneously the strongest evidence in the paper and the thinnest. Both halves of that sentence are true and I would rather state them together than pick the flattering one.</p>
+<p>One of those numbers is genuinely small, and I will flag it every time it appears. The timestamped cohort has 15 resolved programs so far, with 193 more registered and still running. It is simultaneously the strongest evidence we have and the thinnest, and both halves of that sentence are worth saying out loud.</p>
 
 <p><strong>The Series</strong></p>
+
+<p>Over the next nine posts I am going to take these results one at a time, in order, including the ones that did not go our way and the drugs the system got embarrassingly wrong. One claim per post.</p>
 
             <ol>
                 <li>This post.</li>
