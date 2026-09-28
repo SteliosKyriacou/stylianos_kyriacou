@@ -38,7 +38,7 @@
         <div class="blog-post-content">
             <h1>Why I Stopped Working on Molecular Generation</h1>
 <p class="post-byline">Author: Stylianos Kyriacou</p>
-<p class="post-subtitle">Post 1 of 9 on SAISHO’s clinical-outcomes prediction model.</p>
+<p class="post-subtitle">Post 1 of 8 on SAISHO’s clinical-outcomes prediction model.</p>
 
 <p>I spent a big part of my career building systems that produce molecules. Graph Neural Networks (GNNs) for de novo design at <a href="https://www.norachem.io/">Norachem</a>. Multi-objective optimizers driven by AlphaFold-2 embeddings. Enzyme engineering at industrial scale at <a href="https://www.aetherbio.com/">Aether</a>. The through line was always the same: treat design as a search problem, then make the search cheap enough to run at scale.</p>
 
@@ -60,7 +60,7 @@
 
 <p><strong>What I Help Build</strong></p>
 
-<p><a href="https://www.saisho.ai/">SAISHO</a> is our answer. Architecturally it behaves like a drug review board rather than a classifier, and that distinction carries most of the performance, for reasons I will spend post 3 on.</p>
+<p><a href="https://www.saisho.ai/">SAISHO</a> is our answer. Architecturally it behaves like a drug review board rather than a classifier, and that distinction carries most of the performance, for reasons I will spend post 2 on.</p>
 
 <p>Four domain specialists (medicinal chemistry, target biology, pharmacology, toxicology) evaluate the same program independently and in parallel. None of them sees the others’ work while forming a view. That is a deliberate constraint rather than an implementation detail: it removes the anchoring you get when one confident opinion arrives before the rest. A reconciliation pass then ingests all four advisories, resolves the contradictions between them, and emits a single Clinical Risk Score on a 0 to 100 scale (higher is riskier) together with a ranked list of the specific liabilities driving it.</p>
 
@@ -80,12 +80,11 @@
 
 <p><strong>The Series</strong></p>
 
-<p>Over the next eight posts I am going to take these results one at a time, in order, including the ones that did not go our way and the drugs the system got wrong. One claim per post.</p>
+<p>Over the next seven posts I am going to take these results one at a time, in order, including the ones that did not go our way and the drugs the system got wrong. One claim per post.</p>
 
             <ol>
                 <li>This post.</li>
-                <li>Why the obvious approach, train a supervised classifier on historical outcomes, does not work here, and why chemical heuristics cap out well below what you need.</li>
-                <li><strong>Four Specialists, One Room, and No Anchoring.</strong> The architecture, and the design decisions I would defend hardest.</li>
+                <li><strong>A Group of Specialists, One Room, and No Anchoring.</strong> The architecture, and the design decisions I would defend hardest.</li>
                 <li><strong>Does It Separate the Winners from the Losers?</strong> The core discrimination result, including the drugs it got wrong.</li>
                 <li><strong>We Ran the Same Drug One Hundred Times.</strong> 39,100 evaluations, and what score variance tells you that a point estimate cannot.</li>
                 <li><strong>Being Right Is Not Enough.</strong> Liability concordance: whether the system fails a drug for the reason it actually failed.</li>

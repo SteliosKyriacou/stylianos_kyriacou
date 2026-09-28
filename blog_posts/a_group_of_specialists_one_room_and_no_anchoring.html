@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Four Specialists, One Room, and No Anchoring | Stylianos Kyriacou</title>
+    <title>A Group of Specialists, One Room, and No Anchoring | Stylianos Kyriacou</title>
     <link rel="stylesheet" href="../style.css">
     <style>
         .blog-post-content img {
@@ -36,12 +36,12 @@
     <div class="container">
         <a href="../index.html" class="back-link">&larr; Back to Home</a>
         <div class="blog-post-content">
-            <h1>Four Specialists, One Room, and No Anchoring</h1>
+            <h1>A Group of Specialists, One Room, and No Anchoring</h1>
 <p class="post-byline">Author: Stylianos Kyriacou’s Agentic Clone</p>
 
-            <p class="post-subtitle">Post 3 of 9 on SAISHO’s clinical-outcomes prediction model.</p>
+            <p class="post-subtitle">Post 2 of 8 on SAISHO’s clinical-outcomes prediction model.</p>
 
-            <p>The last post argued that clinical-outcome prediction cannot be solved by training a classifier, because the labels do not exist and the interactions that decide the outcome are invisible to property-level filters. This post is what we built instead.</p>
+            <p>The last post ended on a claim I now owe you the substance of: that the way through a sparse label set is to reason well over it rather than to train on it. This post is what that looks like in practice.</p>
 
             <figure><img src="../assets/blog/saisho/fig1-review-board.png" alt="SAISHO operates as a virtual drug review board. The framework takes a molecule, target and indication, runs four independent domain assessments, reconciles them, and returns a Clinical Risk Score with predicted failure modes and a redesign rationale."><figcaption>Figure 1. <strong>a</strong>, conceptual overview. <strong>b</strong>, required and optional inputs. <strong>c</strong>, the four independent domain assessments feeding cross-disciplinary synthesis and risk reconciliation. <strong>d</strong>, outputs. Higher scores indicate greater predicted clinical risk.</figcaption></figure>
 
@@ -61,7 +61,7 @@
 
             <p>This is a constraint, not a convenience. Every additional input you require moves the assessment later in the development timeline, and the value of a risk assessment decays fast as the decisions it would inform become irreversible. Structure, target, and indication all exist by the time you have a lead series. Protocols, biomarker strategies, and Phase 1 PK do not.</p>
 
-            <p>Optional inputs are accepted where they exist: administration route, dosing regimen, emerging preclinical or safety data. They sharpen the assessment rather than enabling it. The route input in particular turns out to matter a great deal, which is post 8.</p>
+            <p>Optional inputs are accepted where they exist: administration route, dosing regimen, emerging preclinical or safety data. They sharpen the assessment rather than enabling it. The route input in particular turns out to matter a great deal, which is post 7.</p>
 
             <p><strong>The Design Decisions I Would Defend Hardest</strong></p>
 
@@ -71,7 +71,7 @@
 
             <p><strong>Disagreement is the signal.</strong> The reconciliation step is not an average and it is not a vote. It is a pass that reads four advisories, finds the contradictions, and resolves them against the program context. A molecule that all four agents like for four different reasons is a genuinely different object from one that scores well because three agents had nothing to say.</p>
 
-            <p><strong>Context resolves trade-offs, structure does not.</strong> This is where the reconciliation earns its place. Consider again the electrophilic acrylamide warhead from the last post. Chemistry flags it. Whether that flag matters depends on treatment duration, alternative therapy, and how much the indication tolerates. Only a pass that sees the toxicology view and the disease context together can decide. A chemistry filter cannot, and neither can a scalar.</p>
+            <p><strong>Context resolves trade-offs, structure does not.</strong> This is where the reconciliation earns its place. Consider an electrophilic acrylamide warhead. Chemistry flags it. Whether that flag matters depends on treatment duration, alternative therapy, and how much the indication tolerates. Only a pass that sees the toxicology view and the disease context together can decide. A chemistry filter cannot, and neither can a scalar.</p>
 
             <p><strong>No outcome labels in the design loop.</strong> Historical clinical outcomes were not used in SAISHO-specific prompt construction or orchestration design. The knowledge in the system comes from over a year of structured distillation sessions with human domain specialists, and the workflow is organized around mechanism (structure, target pharmacology, tissue exposure, organ-level toxicity pathways, disease biology) rather than around what historically worked. The system also calls out to predictive tooling during evaluation where it helps, including protein-ligand co-folding, QSAR, and ADME-Tox.</p>
 
@@ -87,7 +87,7 @@
 
             <p>The <strong>intervention level</strong> is the part I did not expect to matter as much as it does. Risks are sorted by what it would take to fix them. Molecule-level risks, like CYP3A4-mediated clearance that bioisosteric replacement might address, are a chemistry problem. Program-level risks, like pathway redundancy, are not fixable by chemistry at all and call for a different indication, a different mechanism, or a different strategy entirely.</p>
 
-            <p>That distinction is the difference between a score and a decision. Two drugs can be equally risky and require completely opposite responses. Post 6 has the two case studies that make this concrete.</p>
+            <p>That distinction is the difference between a score and a decision. Two drugs can be equally risky and require completely opposite responses. Post 5 has the two case studies that make this concrete.</p>
 
             <p><strong>The Obvious Objection</strong></p>
 
@@ -95,7 +95,7 @@
 
             <p>It is the right objection, and the honest answer is that it has to be measured rather than argued. Every agent in the board runs on the same underlying frontier models we benchmark against, so any gain cannot be attributed to a better model. It is attributable to the decomposition, the grounding, the tool access, the additional inference-time computation, and the reconciliation, as a package. Isolating which of those components contributes what still requires targeted ablations we have not run.</p>
 
-            <p>We did run the package-level comparison, and it is post 7.</p>
+            <p>We did run the package-level comparison, and it is post 6.</p>
 
             <p>Next week: does the score actually separate approved drugs from failed ones.</p>
 
