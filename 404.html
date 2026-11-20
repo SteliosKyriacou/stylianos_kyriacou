@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Page not found | Stylianos Kyriacou</title>
+    <script>
+        // Case-insensitive shortcut, e.g. /bookswishedfor or /books -> the books section
+        var p = location.pathname.toLowerCase().replace(/\/+$/, '');
+        if (p === '/bookswishedfor' || p === '/booksiwishedfor' || p === '/books') location.replace('/#books');
+    </script>
+</head>
+<body style="background:#050505;color:#a0a0a0;font-family:sans-serif;padding:40px;">
+    <h1 style="color:#fff;">Page not found</h1>
+    <p><a href="/" style="color:#4facfe;">Go to the homepage &rarr;</a></p>
+</body>
+</html>
